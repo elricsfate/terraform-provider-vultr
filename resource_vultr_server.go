@@ -113,6 +113,16 @@ func resourceVultrServer() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+
+			"hostname": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+
+			"tag": &schema.Schema{
+				Type:     schema.TypeString,
+				Optional: true,
+			},			
 		},
 	}
 }
@@ -129,6 +139,8 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 		IPXEChainURL: d.Get("ipxe_chain_url").(string),
 		ISO:          d.Get("iso_id").(int),
 		UserData:     d.Get("user_data").(string),
+		Hostname:     d.Get("hostname").(string),
+		Tag:     	  d.Get("tag").(string),		
 	}
 
 	if attr, ok := d.GetOk("ipv6"); ok {
