@@ -122,7 +122,7 @@ func resourceVultrServer() *schema.Resource {
 			"tag": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
-			},			
+			},
 		},
 	}
 }
@@ -140,7 +140,7 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 		ISO:          d.Get("iso_id").(int),
 		UserData:     d.Get("user_data").(string),
 		Hostname:     d.Get("hostname").(string),
-		Tag:          d.Get("tag").(string),			
+		Tag:          d.Get("tag").(string),
 	}
 
 	if attr, ok := d.GetOk("ipv6"); ok {
@@ -153,6 +153,14 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 
 	if attr, ok := d.GetOk("auto_backups"); ok {
 		options.AutoBackups = attr.(bool)
+	}
+
+	if attr, ok := d.GetOk("hostname"); ok {
+		options.Hostname = attr.(string)
+	}
+
+	if attr, ok := d.GetOk("tag"); ok {
+		options.Tag = attr.(string)
 	}
 
 	sshKeyIdsLen := d.Get("ssh_key_ids.#").(int)
