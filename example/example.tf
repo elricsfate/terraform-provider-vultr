@@ -35,9 +35,14 @@ resource "vultr_server" "example" {
 	# set the OS image. 179 is CoreOS Stable.
 	# View the list of OSs with the command: vultr os
 	os_id = 179
+	
+	# Enable or disable Auto Backups
+	# Optional value.
+	auto_backups = false
 
         # Specify Snapshot ID
-        # os_id must equal 164, otherwise terraform apply will fail.
+        # If this value is set os_id must equal 164, otherwise terraform apply will fail.
+	# Optional value
         # View the list of snapshots with the command: vultr snapshots
         # snapshot_id = ""
 
@@ -49,6 +54,12 @@ resource "vultr_server" "example" {
 
 	# enable one or more ssh keys on the root account.
 	ssh_key_ids = ["${vultr_ssh_key.example.id}"]
+
+	# cloud-init user data
+	# See https://www.vultr.com/docs/getting-started-with-cloud-init
+	#     http://cloudinit.readthedocs.io/en/latest/index.html
+	# Optional value	
+	user_data = "${file("userdata.init")}"
 
 	# execute a command on the local machine.
 	provisioner "local-exec" {

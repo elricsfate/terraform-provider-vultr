@@ -1,0 +1,10 @@
+#cloud-config
+write_files:
+  - path: "/root/example.txt"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      Here is some sample content.
+# Upgrade packages on startup. See:
+# http://cloudinit.readthedocs.io/en/latest/topics/examples.html?highlight=update#run-apt-or-yum-upgrade
+package_upgrade: true
