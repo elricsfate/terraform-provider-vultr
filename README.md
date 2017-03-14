@@ -13,9 +13,9 @@ WARNING this is a work-in-progress. do not use in production.
 
 Setup the Go workspace:
 
-	mkdir -p terraform-provider-vultr/src/github.com/rgl/terraform-provider-vultr
+	mkdir -p terraform-provider-vultr/src/github.com/elricsfate/terraform-provider-vultr
 	cd terraform-provider-vultr
-	git clone https://github.com/rgl/terraform-provider-vultr src/github.com/rgl/terraform-provider-vultr
+	git clone https://github.com/elricsfate/terraform-provider-vultr src/github.com/elricsfate/terraform-provider-vultr
 	export GOPATH=$PWD
 	export PATH=$PWD/bin:$PATH
 	hash -r # reset bash path
@@ -32,7 +32,7 @@ Switch to proper Terraform version:
 
 Build and test:
 
-	cd src/github.com/rgl/terraform-provider-vultr
+	cd src/github.com/elricsfate/terraform-provider-vultr
 	go build
 	go test
 
