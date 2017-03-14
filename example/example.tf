@@ -25,16 +25,21 @@ resource "vultr_server" "example" {
 	tag = "exampletag"	
 
 	# set the region. 7 is Amsterdam.
-	# get the list of regions with the command: vultr regions
+	# View the list of regions with the command: vultr regions
 	region_id = 7
 
-	# set the plain. 29 is 768 MB RAM,15 GB SSD,1.00 TB BW.
-	# get the list of plans with the command: vultr plans --region 7
+	# set the plan. 29 is 768 MB RAM,15 GB SSD,1.00 TB BW.
+	# View the list of plans with the command: vultr plans --region 7
 	plan_id = 29
 
 	# set the OS image. 179 is CoreOS Stable.
-	# get the list of OSs with the command: vultr os
+	# View the list of OSs with the command: vultr os
 	os_id = 179
+
+        # Specify Snapshot ID
+        # os_id must equal 164, otherwise terraform apply will fail.
+        # View the list of snapshots with the command: vultr snapshots
+        # snapshot_id = ""
 
 	# enable IPv6.
 	ipv6 = true
