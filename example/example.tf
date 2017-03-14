@@ -61,10 +61,15 @@ resource "vultr_server" "example" {
 	# Optional value	
 	user_data = "${file("userdata.init")}"
 
+	# Run a Vultr script. 
+	# Optional value.
+	# View the scripts with the command: vultr scripts
+	# script = 123456
+
 	# execute a command on the local machine.
 	provisioner "local-exec" {
         command = "echo local-exec ${vultr_server.example.ipv4_address}"
-    }
+	}
 
 	# execute commands on the remote machine.
 	provisioner "remote-exec" {
@@ -72,5 +77,5 @@ resource "vultr_server" "example" {
 			"env",
 			"ip addr",
 		]
-    }
+	}
 }

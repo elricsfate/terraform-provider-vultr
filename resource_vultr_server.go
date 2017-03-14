@@ -127,6 +127,10 @@ func resourceVultrServer() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"script": &schema.Schema{
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 		},
 	}
 }
@@ -146,6 +150,7 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 		Hostname:     d.Get("hostname").(string),
 		Tag:          d.Get("tag").(string),
 		Snapshot:     d.Get("snapshot_id").(string),
+		Script:       d.Get("script").(int),
 	}
 
 	if attr, ok := d.GetOk("ipv6"); ok {
@@ -173,6 +178,10 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 			if osId != 164 {
 				return fmt.Errorf("os_id must equal 164 if snapshot_id is set.")
 			}
+	}
+
+	if attr, ok := d.GetOk("script"); ok {
+		options.Script = attr.(int)
 	}
 
 	sshKeyIdsLen := d.Get("ssh_key_ids.#").(int)
