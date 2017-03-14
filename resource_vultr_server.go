@@ -126,10 +126,12 @@ func resourceVultrServer() *schema.Resource {
 			"snapshot_id": &schema.Schema{
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"script": &schema.Schema{
 				Type:     schema.TypeInt,
 				Optional: true,
+				ForceNew: true,
 			},
 		},
 	}
