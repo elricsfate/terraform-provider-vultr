@@ -15,6 +15,14 @@ resource "vultr_ssh_key" "example" {
 
 resource "vultr_server" "example" {
 	name = "example created from terraform"
+	
+	# set the hostname.
+	# Optional value.
+	hostname = "foobar.example.com"
+
+	# set Vultr tags
+	# Optional value.
+	tag = "exampletag"	
 
 	# set the region. 7 is Amsterdam.
 	# get the list of regions with the command: vultr regions
