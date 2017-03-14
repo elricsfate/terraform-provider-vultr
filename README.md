@@ -9,6 +9,8 @@ WARNING this is a work-in-progress. do not use in production.
 
 # Build
 
+**NOTE**: This plugin is intended to work with Terraform V0.8.8 or earlier. Compiling against the current Terraform master will result in an API error from Terraform.
+
 Setup the Go workspace:
 
 	mkdir -p terraform-provider-vultr/src/github.com/rgl/terraform-provider-vultr
@@ -22,6 +24,11 @@ Get the dependencies:
 
 	go get github.com/hashicorp/terraform
 	go get github.com/JamesClonk/vultr
+
+Switch to proper Terraform version:
+
+	cd src/github.com/hashicorp/terraform
+	git checkout v0.8.8
 
 Build and test:
 
