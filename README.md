@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/elricsfate/terraform-provider-vultr.svg?branch=master)](https://travis-ci.org/elricsfate/terraform-provider-vultr)
+
 # About
 
 This is a [terraform](https://www.terraform.io/) provider for the [Vultr](https://www.vultr.com/) cloud.
@@ -10,6 +12,7 @@ WARNING this is a work-in-progress. do not use in production.
 # Build
 
 **NOTE**: This plugin is intended to work with Terraform V0.8.8 or earlier. Compiling against the current Terraform master will result in an API error from Terraform.
+**NOTE**: Go must be => 1.7.x. This means the default go package in Ubuntu 16.04.2 is *NOT* sufficient 
 
 Setup the Go workspace:
 
