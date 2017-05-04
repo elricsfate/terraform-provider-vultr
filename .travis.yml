@@ -1,0 +1,9 @@
+language: go
+go:
+ - 1.7.5
+install:
+ - go get github.com/hashicorp/terraform
+ - go get github.com/JamesClonk/vultr
+before_script:
+ - cd src/github.com/hashicorp/terraform
+ - git checkout v0.8.8
