@@ -2,6 +2,7 @@ language: go
 go:
  - 1.7.5
 install:
+ - cd $GOPATH
  - go get github.com/hashicorp/terraform
  - go get github.com/JamesClonk/vultr
 before_script:
