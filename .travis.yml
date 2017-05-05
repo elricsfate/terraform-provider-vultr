@@ -8,5 +8,4 @@ install:
 before_script:
  - cd src/github.com/hashicorp/terraform
  - git checkout v0.8.8
-script:
- - script: go test ./...
+ - rm -rf src/github.com/hashicorp/terraform/builtin/providers
