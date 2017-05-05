@@ -30,12 +30,12 @@ Get the dependencies:
 
 Switch to proper Terraform version:
 
-	cd src/github.com/hashicorp/terraform
+	cd $GOPATH/src/github.com/hashicorp/terraform
 	git checkout v0.8.8
 
 Build and test:
 
-	cd src/github.com/elricsfate/terraform-provider-vultr
+	cd $GOPATH/src/github.com/elricsfate/terraform-provider-vultr
 	go build
 	go test
 
