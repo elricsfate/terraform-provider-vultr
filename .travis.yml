@@ -1,11 +1,21 @@
 language: go
 go:
- - 1.8.1
+- 1.8.1
 install:
- - cd $GOPATH
- - go get github.com/hashicorp/terraform
- - go get github.com/JamesClonk/vultr
+- cd $GOPATH
+- go get github.com/hashicorp/terraform
+- go get github.com/JamesClonk/vultr
 before_script:
- - cd src/github.com/hashicorp/terraform
- - git checkout v0.8.8
- - rm -rf $GOPATH/src/github.com/hashicorp/terraform/builtin/providers/fastly
+- cd src/github.com/hashicorp/terraform
+- git checkout v0.8.8
+- rm -rf $GOPATH/src/github.com/hashicorp/terraform/builtin/providers/fastly
+after_script:
+- cp terraform-provider-vultr* $GOPATH/bin
+- tar -czvf terraform_provider_vultr-$TRAVIS_COMMIT.tar.gz $GOPATH/bin --exclude=$GOPATH/bin/terraform
+deploy:
+  provider: releases
+  api_key:
+    secure: aUr3UO2Hvta10MsgfoV2XTRCDSQ89SA2PzphVwigl9JfmgKGMhmKs6dmFLP6D68btjYFyhMfLUTNBYZKBVXC4dymXx1mt1AyzENPrAeM1cC9xunxc1zu6psprYh3z9TsHTPHjeGQ8U4luR/N/GeDDOetuJFnvXsBjZTqaamHoGSKABGQS+ymN8xaPM2WE5ykPSOrkng0aUlmP44Z1ppCYzCHd0TVNFM/i1nm4F+fhpOYl2JtetRBo0jhumc/cq+ChkbdMPW3UfgYtpI3qaIKacCD0bfVria7kAmxRYWqoMt6PAwZK68MRXht951fwmRACB0uMGDjVJQ3atbdxvdKA2bvxBoRAs+Z3v6YeDHk3xCkUcXz11mvEdb9jZKG4rdKwoN1GYTwUfNdPaFoaiQBG5xq1bmwWGS9WUzAA3zmx8DqVQxMXJb48P2xJDNisfxP1jUbolPetQsVn/AzwveUySU1Fq8PNVA1XTwxeiR2aHl6jDM714rWuCIAzSAx0Ie1cx/3E0Lc7i2XVKdqD7uCt5OL1wWPm0mxfql6fGsI+NknpWlj90IO2zTXy8heQJpHjUHCFbs1W6cCDS2RGY37vTwXm1SgU7F3q4ix8IEFzDFfM+DU+CS1YWleklpbvVY6UZHBT0SeCO1Y5RGDS3SJTw0NZGVba5cKxbqif9k8koQ=
+  file: test
+  on:
+    repo: elricsfate/terraform-provider-vultr
