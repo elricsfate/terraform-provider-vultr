@@ -12,6 +12,7 @@ before_script:
 after_script:
 - cp terraform-provider-vultr* $GOPATH/bin
 - tar -czvf $GOPATH/bin/terraform_provider_vultr-$TRAVIS_COMMIT.tar.gz $GOPATH/bin --exclude=$GOPATH/bin/terraform
+- ls $GOPATH/bin
 deploy:
   provider: releases
   api_key:
