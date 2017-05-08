@@ -9,10 +9,9 @@ before_script:
 - cd src/github.com/hashicorp/terraform
 - git checkout v0.8.8
 - rm -rf $GOPATH/src/github.com/hashicorp/terraform/builtin/providers/fastly
-after_script:
+before_deploy:
 - cp terraform-provider-vultr* $GOPATH/bin
 - tar -czvf $GOPATH/bin/terraform_provider_vultr-$TRAVIS_COMMIT.tar.gz $GOPATH/bin --exclude=$GOPATH/bin/terraform
-- ls $GOPATH/bin
 deploy:
   provider: releases
   api_key:
