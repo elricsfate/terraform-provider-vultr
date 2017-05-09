@@ -17,6 +17,7 @@ before_deploy:
 - cp $GOPATH/src/github.com/elricsfate/terraform-provider-vultr/terraform-provider-vultr $GOPATH/bin
 - cd $GOPATH/bin
 - tar -czvf terraform_provider_vultr-$TRAVIS_COMMIT.tar.gz vultr terraform-provider-vultr
+- cd $GOPATH/src/github.com/elricsfate/terraform-provider-vultr
 deploy:
   provider: releases
   api_key:
