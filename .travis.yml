@@ -9,8 +9,11 @@ before_script:
 - cd src/github.com/hashicorp/terraform
 - git checkout v0.8.8
 - rm -rf $GOPATH/src/github.com/hashicorp/terraform/builtin/providers/fastly
+script:
+- cd $GOPATH/src/github.com/elricsfate/terraform-provider-vultr
+- go build
+- go test
 before_deploy:
-- find $GOPATH -name "terraform-provider-vultr"
 - cp $GOPATH/src/github.com/elricsfate/terraform-provider-vultr/terraform-provider-vultr* $GOPATH/bin
 - tar -czvf $GOPATH/bin/terraform_provider_vultr-$TRAVIS_COMMIT.tar.gz $GOPATH/bin --exclude=$GOPATH/bin/terraform
 deploy:
