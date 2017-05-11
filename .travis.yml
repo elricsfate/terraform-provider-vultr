@@ -6,8 +6,6 @@ install:
 - go get github.com/hashicorp/terraform
 - go get github.com/JamesClonk/vultr
 before_script:
-- cd src/github.com/hashicorp/terraform
-- git checkout v0.8.8
 - rm -rf $GOPATH/src/github.com/hashicorp/terraform/builtin/providers/fastly
 script:
 - cd $GOPATH/src/github.com/elricsfate/terraform-provider-vultr
