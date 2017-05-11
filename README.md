@@ -26,8 +26,6 @@ If you didn't add terraform-provider-linode to your path, you'll need to put the
 
 # Build
 
-**NOTE**: This plugin is intended to work with Terraform V0.8.8 or earlier. Compiling against the current Terraform master will result in an API error from Terraform.
-
 **NOTE**: Go must be => 1.7.x. This means the default go package in Ubuntu 16.04.2 is *NOT* sufficient 
 
 Setup the Go workspace:
@@ -43,11 +41,6 @@ Get the dependencies:
 
 	go get github.com/hashicorp/terraform
 	go get github.com/JamesClonk/vultr
-
-Switch to proper Terraform version:
-
-	cd $GOPATH/src/github.com/hashicorp/terraform
-	git checkout v0.8.8
 
 Build and test:
 
