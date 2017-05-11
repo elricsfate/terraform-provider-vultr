@@ -157,7 +157,7 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 		Hostname:     d.Get("hostname").(string),
 		Tag:          d.Get("tag").(string),
 		Snapshot:     d.Get("snapshot_id").(string),
-		Application:  d.Get("app_id").(string),
+		AppID:  d.Get("app_id").(string),
 		Script:       d.Get("script").(int),
 	}
 
@@ -189,7 +189,7 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	if attr, ok := d.GetOk("app_id"); ok {
-		options.Application = attr.(string)
+		options.AppID = attr.(string)
 		if osId != 186 {
 			return fmt.Errorf("os_id must equal 186 if app_id is set.")
 		}
