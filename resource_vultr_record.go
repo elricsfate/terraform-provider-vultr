@@ -57,17 +57,29 @@ func resourceVultrRecord() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+
+//			"proxied": {
+//				Default:  false,
+//				Optional: true,
+//				Type:     schema.TypeBool,
+//			},
+
+			"zone_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
 
 func resourceVultrRecordCreate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*lib.Client)
+	client := meta.(*cloudflare.API)
 
 	newRecord := cloudflare.DNSRecord{
 		Type:     d.Get("type").(string),
 		Name:     d.Get("name").(string),
 		Content:  d.Get("value").(string),
+//		Proxied:  d.Get("proxied").(bool),
 		ZoneName: d.Get("domain").(string),
 	}
 
@@ -89,9 +101,17 @@ func resourceVultrRecordCreate(d *schema.ResourceData, meta interface{}) error {
 		return fmt.Errorf("Error validating record type %q: %s", newRecord.Type, err)
 	}
 
+	zoneId, err := client.ZoneIDByName(newRecord.ZoneName)
+	if err != nil {
+		return fmt.Errorf("Error finding zone %q: %s", newRecord.ZoneName, err)
+	}
+
+	d.Set("zone_id", zoneId)
+	newRecord.ZoneID = zoneId
+
 	log.Printf("[DEBUG] Vultr Record create configuration: %#v", newRecord)
 
-	r, err := client.CreateDNSRecord(newRecord)
+	r, err := client.CreateDNSRecord(zoneId, newRecord)
 	if err != nil {
 		return fmt.Errorf("Failed to create record: %s", err)
 	}
@@ -110,10 +130,15 @@ func resourceVultrRecordCreate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceVultrRecordRead(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*lib.Client)
+	client := meta.(*cloudflare.API)
 	domain := d.Get("domain").(string)
 
-	record, err := client.DNSRecord(d.Id())
+	zoneId, err := client.ZoneIDByName(domain)
+	if err != nil {
+		return fmt.Errorf("Error finding zone %q: %s", domain, err)
+	}
+
+	record, err := client.DNSRecord(zoneId, d.Id())
 	if err != nil {
 		return err
 	}
@@ -124,12 +149,14 @@ func resourceVultrRecordRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("value", record.Content)
 	d.Set("ttl", record.TTL)
 	d.Set("priority", record.Priority)
+	d.Set("proxied", record.Proxied)
+	d.Set("zone_id", zoneId)
 
 	return nil
 }
 
 func resourceVultrRecordUpdate(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*lib.Client)
+	client := meta.(*cloudflare.API)
 
 	updateRecord := cloudflare.DNSRecord{
 		ID:       d.Id(),
@@ -144,12 +171,23 @@ func resourceVultrRecordUpdate(d *schema.ResourceData, meta interface{}) error {
 		updateRecord.Priority = priority.(int)
 	}
 
+	if proxied, ok := d.GetOk("proxied"); ok {
+		updateRecord.Proxied = proxied.(bool)
+	}
+
 	if ttl, ok := d.GetOk("ttl"); ok {
 		updateRecord.TTL = ttl.(int)
 	}
 
+	zoneId, err := client.ZoneIDByName(updateRecord.ZoneName)
+	if err != nil {
+		return fmt.Errorf("Error finding zone %q: %s", updateRecord.ZoneName, err)
+	}
+
+	updateRecord.ZoneID = zoneId
+
 	log.Printf("[DEBUG] Vultr Record update configuration: %#v", updateRecord)
-	err = client.UpdateDNSRecord(d.Id(), updateRecord)
+	err = client.UpdateDNSRecord(zoneId, d.Id(), updateRecord)
 	if err != nil {
 		return fmt.Errorf("Failed to update Vultr Record: %s", err)
 	}
@@ -158,12 +196,17 @@ func resourceVultrRecordUpdate(d *schema.ResourceData, meta interface{}) error {
 }
 
 func resourceVultrRecordDelete(d *schema.ResourceData, meta interface{}) error {
-	client := meta.(*lib.Client)
+	client := meta.(*cloudflare.API)
 	domain := d.Get("domain").(string)
+
+	zoneId, err := client.ZoneIDByName(domain)
+	if err != nil {
+		return fmt.Errorf("Error finding zone %q: %s", domain, err)
+	}
 
 	log.Printf("[INFO] Deleting Vultr Record: %s, %s", domain, d.Id())
 
-	err = client.DeleteDNSRecord(d.Id())
+	err = client.DeleteDNSRecord(zoneId, d.Id())
 	if err != nil {
 		return fmt.Errorf("Error deleting Vultr Record: %s", err)
 	}
