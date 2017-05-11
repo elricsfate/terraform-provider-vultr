@@ -45,6 +45,12 @@ resource "vultr_server" "example" {
 	# Optional value
         # View the list of snapshots with the command: vultr snapshots
         # snapshot_id = ""
+ 
+        # Specify Application ID
+        # If this value is set os_id must equal 186, otherwise terraform apply will fail.
+	# Optional value
+        # View the list of snapshots with the command: vultr apps
+	# app_id = ""
 
 	# enable IPv6.
 	ipv6 = true
