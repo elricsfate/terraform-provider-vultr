@@ -58,12 +58,6 @@ func resourceVultrRecord() *schema.Resource {
 				Optional: true,
 			},
 
-//			"proxied": {
-//				Default:  false,
-//				Optional: true,
-//				Type:     schema.TypeBool,
-//			},
-
 			"zone_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -79,7 +73,6 @@ func resourceVultrRecordCreate(d *schema.ResourceData, meta interface{}) error {
 		Type:     d.Get("type").(string),
 		Name:     d.Get("name").(string),
 		Content:  d.Get("value").(string),
-//		Proxied:  d.Get("proxied").(bool),
 		ZoneName: d.Get("domain").(string),
 	}
 
@@ -149,7 +142,6 @@ func resourceVultrRecordRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("value", record.Content)
 	d.Set("ttl", record.TTL)
 	d.Set("priority", record.Priority)
-	d.Set("proxied", record.Proxied)
 	d.Set("zone_id", zoneId)
 
 	return nil
@@ -169,10 +161,6 @@ func resourceVultrRecordUpdate(d *schema.ResourceData, meta interface{}) error {
 
 	if priority, ok := d.GetOk("priority"); ok {
 		updateRecord.Priority = priority.(int)
-	}
-
-	if proxied, ok := d.GetOk("proxied"); ok {
-		updateRecord.Proxied = proxied.(bool)
 	}
 
 	if ttl, ok := d.GetOk("ttl"); ok {
