@@ -97,6 +97,21 @@ func resourceVultrServer() *schema.Resource {
 				Computed: true,
 			},
 
+			"ipv6_address": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"ipv6_network": &schema.Schema{
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+
+			"ipv6_netsize": &schema.Schema{
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+
 			"ipv6": &schema.Schema{
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -177,9 +192,9 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 
 	if attr, ok := d.GetOk("snapshot_id"); ok {
 		options.Snapshot = attr.(string)
-			if osId != 164 {
-				return fmt.Errorf("os_id must equal 164 if snapshot_id is set.")
-			}
+		if osId != 164 {
+			return fmt.Errorf("os_id must equal 164 if snapshot_id is set.")
+		}
 	}
 
 	if attr, ok := d.GetOk("script"); ok {
@@ -247,6 +262,12 @@ func resourceVultrServerRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("default_password", server.DefaultPassword)
 	d.Set("ipv4_address", server.MainIP)
 	d.Set("ipv4_private_address", server.InternalIP)
+
+	for _, v6net := range server.V6Networks {
+		d.Set("ipv6_address", v6net.MainIP)
+		d.Set("ipv6_network", v6net.Network)
+		d.Set("ipv6_netsize", v6net.NetworkSize)
+	}
 
 	d.SetConnInfo(map[string]string{
 		"type":     "ssh",
