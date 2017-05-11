@@ -183,16 +183,16 @@ func resourceVultrServerCreate(d *schema.ResourceData, meta interface{}) error {
 
 	if attr, ok := d.GetOk("snapshot_id"); ok {
 		options.Snapshot = attr.(string)
-			if osId != 164 {
-				return fmt.Errorf("os_id must equal 164 if snapshot_id is set.")
-			}
+		if osId != 164 {
+			return fmt.Errorf("os_id must equal 164 if snapshot_id is set.")
+		}
 	}
 
-        if attr, ok := d.GetOk("app_id"); ok {
+	if attr, ok := d.GetOk("app_id"); ok {
 		options.Application = attr.(string)
-			if osId != 186 {
-				return fmt.Errorf("os_id must equal 186 if app_id is set.")
-			}
+		if osId != 186 {
+			return fmt.Errorf("os_id must equal 186 if app_id is set.")
+		}
 	}
 
 	if attr, ok := d.GetOk("script"); ok {
