@@ -28,6 +28,10 @@ If you didn't add terraform-provider-linode to your path, you'll need to put the
 
 **NOTE**: Go must be => 1.7.x. This means the default go package in Ubuntu 16.04.2 is *NOT* sufficient 
 
+Install the correct version of go: 
+
+	sudo apt-get install golang-1.8-go
+
 Setup the Go workspace:
 
 	mkdir -p terraform-provider-vultr/src/github.com/elricsfate/terraform-provider-vultr
